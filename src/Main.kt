@@ -1,14 +1,13 @@
 import javafx.application.Application
 import javafx.event.EventHandler
+import javafx.geometry.Point3D
 import javafx.scene.*
 import javafx.scene.paint.Color
 import javafx.stage.Stage
 import javafx.scene.Scene
-import javafx.scene.effect.Light
 import javafx.scene.input.MouseEvent
 import javafx.scene.paint.PhongMaterial
 import javafx.scene.shape.Box
-import javafx.scene.shape.CubicCurve
 import javafx.scene.transform.Rotate
 
 
@@ -32,10 +31,16 @@ class Main : Application() {
         box.material = material
 
         val root = Group()
+        root.transforms.addAll(rotateX, rotateY)
         scene = Scene(root, 1200.0, 900.0, true, SceneAntialiasing.BALANCED)
         scene.fill = Color.GRAY
 
-        root.children.addAll(box)
+        val g = ScGraphics()
+        g.moveTo(-100.0, 0.0, -51.0)
+        g.lineTo(Point3D(100.0, 0.0, -51.0), Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
+        //g.lineTo(Point3D(150.0, -20.0, -51.0), Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
+
+        root.children.addAll(box, g)
 
 
         camera.nearClip = 0.1
