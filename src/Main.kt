@@ -37,10 +37,12 @@ class Main : Application() {
 
         val g = ScGraphics()
         g.moveTo(-100.0, 0.0, -51.0)
-        g.lineTo(Point3D(100.0, 0.0, -51.0), Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
-        //g.lineTo(Point3D(150.0, -20.0, -51.0), Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
+        g.lineTo(100.0, 0.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
+        g.lineTo(150.0, -20.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
+        g.lineTo(20.0, 200.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
+        //g.lineTo(100.0, 100.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
 
-        root.children.addAll(box, g)
+        root.children.addAll(box, g.meshView())
 
 
         camera.nearClip = 0.1
