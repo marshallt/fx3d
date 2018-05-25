@@ -1,3 +1,5 @@
+package render
+
 import javafx.geometry.Point3D
 import javafx.scene.paint.Color
 import javafx.scene.paint.PhongMaterial
@@ -9,7 +11,7 @@ fun Point3D.toFloat(): Point3DFloat {
     return Point3DFloat(this.x.toFloat(), this.y.toFloat(), this.z.toFloat())
 }
 
-class ScGraphics() {
+class Graphics3d() {
 
     var linePoints = ArrayList<Point3D>()
     var lineEndWidths = ArrayList<Double>()

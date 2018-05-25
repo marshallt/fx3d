@@ -10,19 +10,15 @@ import javafx.scene.input.ScrollEvent
 import javafx.scene.paint.PhongMaterial
 import javafx.scene.shape.Box
 import javafx.scene.transform.Rotate
+import render.Graphics3d
+import render.View3d
 
 
 class Main : Application() {
     //@Throws(Exception::class)
 
-    var mousePosX = 0.0
-    var mousePosY = 0.0
-    var mouseOldX = 0.0
-    var mouseOldY = 0.0
-    var rotateX = Rotate(25.0, Rotate.X_AXIS)
-    var rotateY = Rotate(25.0, Rotate.Y_AXIS)
-
-    lateinit var scene: Scene
+    val root = Group()
+    val scene = View3d(root, 1200.0, 900.0, true, SceneAntialiasing.BALANCED)
     var camera = PerspectiveCamera(true)
 
 
@@ -31,12 +27,10 @@ class Main : Application() {
         var material = PhongMaterial(Color.RED)
         box.material = material
 
-        val root = Group()
-        root.transforms.addAll(rotateX, rotateY)
-        scene = Scene(root, 1200.0, 900.0, true, SceneAntialiasing.BALANCED)
+        
         scene.fill = Color.GRAY
 
-        val g = ScGraphics()
+        val g = Graphics3d()
         g.moveTo(-100.0, 0.0, -51.0)
         g.lineTo(100.0, 0.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
         g.lineTo(150.0, -20.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
@@ -58,41 +52,9 @@ class Main : Application() {
 
         primaryStage.scene = scene
         primaryStage.show()
-        handleMouseEvents()
+
     }
 
-    private fun handleMouseEvents() {
-        scene.onMousePressed = EventHandler<MouseEvent> { me: MouseEvent ->
-            mousePosX = me.sceneX
-            mousePosY = me.sceneY
-            mouseOldX = me.sceneX
-            mouseOldY = me.sceneY
-        }
-
-        scene.onMouseDragged = EventHandler<MouseEvent > { me: MouseEvent ->
-            mousePosX = me.sceneX
-            mousePosY = me.sceneY
-            val dx = mousePosX - mouseOldX
-            val dy = mousePosY - mouseOldY
-            mouseOldX = mousePosX
-            mouseOldY = mousePosY
-            if (me.isPrimaryButtonDown) {
-                rotateY.setAngle(rotateY.getAngle() - dx)
-                rotateX.setAngle(rotateX.getAngle() + dy)
-            }
-        }
-
-        scene.onScroll = EventHandler<ScrollEvent> { me: ScrollEvent ->
-            if (me.deltaY > 0) {
-                camera.translateZ += 50.0
-                if (camera.translateZ > 0.0) camera.translateZ = 0.0
-            } else {
-                camera.translateZ -= 50
-                if (camera.translateZ < -1000.0) camera.translateZ = -1000.0
-
-            }
-        }
-    }
 
     companion object {
         @JvmStatic
