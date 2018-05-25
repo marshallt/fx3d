@@ -54,7 +54,7 @@ class Graphics3d() {
             //add the first point and offsets to the mesh
             //TODO: use correct offsets when line not horizontal
             var fromPoint = linePoints[0]
-            var endOffset = lineEndWidths[0] / 2.0
+            var endOffsets = Vector3d(0.0,0.0,0.0)
             triangleMesh.points.addAll(fromPoint.x.toFloat(), fromPoint.y.toFloat(), fromPoint.z.toFloat())                //v0
             triangleMesh.points.addAll(fromPoint.x.toFloat(), (fromPoint.y - endOffset).toFloat(), fromPoint.z.toFloat())  //v1
             triangleMesh.points.addAll(fromPoint.x.toFloat(), (fromPoint.y + endOffset).toFloat(), fromPoint.z.toFloat())  //v2
