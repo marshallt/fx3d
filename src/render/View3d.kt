@@ -2,6 +2,7 @@ package render
 
 import javafx.event.EventHandler
 import javafx.scene.Parent
+import javafx.scene.PerspectiveCamera
 import javafx.scene.Scene
 import javafx.scene.SceneAntialiasing
 import javafx.scene.input.MouseEvent
@@ -17,10 +18,23 @@ class View3d(root: Parent, width: Double, height: Double, depthBuffer: Boolean, 
     var mouseOldY = 0.0
     var rotateX = Rotate(0.0, Rotate.X_AXIS)
     var rotateY = Rotate(0.0, Rotate.Y_AXIS)
+    var camera = PerspectiveCamera(true)
 
     init {
         root.transforms.addAll(rotateX, rotateY)
         handleMouseEvents()
+    }
+
+    private fun  initCamera() {
+        camera.nearClip = 0.1
+        camera.farClip = 10000.0
+        camera.translateZ = -400.0
+        camera.translateY = 0.0
+        camera.translateX = 0.0
+        camera.fieldOfView = 45.0
+
+        this.camera = camera
+
     }
 
     private fun handleMouseEvents() {
