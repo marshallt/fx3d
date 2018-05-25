@@ -12,6 +12,7 @@ fun Point3D.toFloat(): Point3DFloat {
 }
 
 class Graphics3d() {
+    val DEBUG = true
 
     var linePoints = ArrayList<Point3D>()
     var lineEndWidths = ArrayList<Double>()
@@ -50,20 +51,31 @@ class Graphics3d() {
         if (linePoints.size > 1) { //if you don't have at least 2 points, there are no lines...
 
 
-            //ignore normals for now and make the line vertical (fixed z)
-            //add the first point and offsets to the mesh
-            //TODO: use correct offsets when line not horizontal
+            //get the normal of the vector from fromPoint to toPoint (linePoints[1])
+            //then use cross product to get the offsets from fromPoint and toPoint to get the right width
             var fromPoint = linePoints[0]
-            var endOffsets = Vector3d(0.0,0.0,0.0)
+            var segmentNormal = linePoints[1].subtract(linePoints[0]).normalize()
+            var endOffsets = segmentNormal.crossProduct(lineNormals[0]).multiply(lineEndWidths[0] / 2.0)
+
+            println("endOffsets: $endOffsets")
+
             triangleMesh.points.addAll(fromPoint.x.toFloat(), fromPoint.y.toFloat(), fromPoint.z.toFloat())                //v0
-            triangleMesh.points.addAll(fromPoint.x.toFloat(), (fromPoint.y - endOffset).toFloat(), fromPoint.z.toFloat())  //v1
-            triangleMesh.points.addAll(fromPoint.x.toFloat(), (fromPoint.y + endOffset).toFloat(), fromPoint.z.toFloat())  //v2
+            triangleMesh.points.addAll((fromPoint.x + endOffsets.x).toFloat(), (fromPoint.y + endOffsets.y).toFloat(), (fromPoint.z + endOffsets.z).toFloat())  //v1
+            triangleMesh.points.addAll((fromPoint.x - endOffsets.x).toFloat(), (fromPoint.y - endOffsets.y).toFloat(), (fromPoint.z - endOffsets.z).toFloat())  //v2
 
             linePoints.drop(1).forEachIndexed({ i, toPoint ->
-                endOffset = lineEndWidths[i] / 2.0
+                if (i < linePoints.size) {
+                    segmentNormal = linePoints[i + 1].subtract(linePoints[i]).normalize()
+                    endOffsets = segmentNormal.crossProduct(lineNormals[i]).multiply(lineEndWidths[i] / 2.0)
+
+                } else {
+
+                }
+
+                println("endOffsets: $endOffsets")
                 triangleMesh.points.addAll(toPoint.x.toFloat(), toPoint.y.toFloat(), toPoint.z.toFloat())                   //v3
-                triangleMesh.points.addAll(toPoint.x.toFloat(), (toPoint.y - endOffset).toFloat(), toPoint.z.toFloat())     //v4
-                triangleMesh.points.addAll(toPoint.x.toFloat(), (toPoint.y + endOffset).toFloat(), toPoint.z.toFloat())     //v5
+                triangleMesh.points.addAll((toPoint.x + endOffsets.x).toFloat(), (toPoint.y + endOffsets.y).toFloat(), (toPoint.z + endOffsets.z).toFloat())  //v1
+                triangleMesh.points.addAll((toPoint.x - endOffsets.x).toFloat(), (toPoint.y - endOffsets.y).toFloat(), (toPoint.z - endOffsets.z).toFloat())  //v2
 
                 //add faces
                 val pointOffset = i * 3
@@ -84,6 +96,13 @@ class Graphics3d() {
                 fromPoint = linePoints[i+1]
             })
         }
+        if (DEBUG) {
+            for (i in 0..triangleMesh.points.size()-2 step 3) {
+                println("[$i] ${triangleMesh.points[i]}, ${triangleMesh.points[i+1]}, ${triangleMesh.points[i+2]},")
+            }
+
+        }
+
         return result
     }
 

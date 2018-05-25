@@ -33,11 +33,11 @@ class Main : Application() {
 
         val g = Graphics3d()
         g.moveTo(-100.0, 0.0, -51.0)
-        g.lineTo(100.0, 0.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
-        g.lineTo(150.0, -20.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
-        g.lineTo(20.0, 200.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
+        g.lineTo(100.0, 0.0, -51.0, Point3D(0.0, 1.0, 1.0), 5.0, Color.BLUE)
+        g.lineTo(150.0, -20.0, -51.0, Point3D(0.0, 1.0, 1.0), 5.0, Color.BLUE)
+/*        g.lineTo(20.0, 200.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
         g.lineTo(100.0, 100.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
-
+*/
         root.children.addAll(box, g.meshView())
 
     }
