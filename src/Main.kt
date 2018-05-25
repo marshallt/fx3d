@@ -6,6 +6,7 @@ import javafx.scene.paint.Color
 import javafx.stage.Stage
 import javafx.scene.Scene
 import javafx.scene.input.MouseEvent
+import javafx.scene.input.ScrollEvent
 import javafx.scene.paint.PhongMaterial
 import javafx.scene.shape.Box
 import javafx.scene.transform.Rotate
@@ -40,7 +41,7 @@ class Main : Application() {
         g.lineTo(100.0, 0.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
         g.lineTo(150.0, -20.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
         g.lineTo(20.0, 200.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
-        //g.lineTo(100.0, 100.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
+        g.lineTo(100.0, 100.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
 
         root.children.addAll(box, g.meshView())
 
@@ -78,6 +79,17 @@ class Main : Application() {
             if (me.isPrimaryButtonDown) {
                 rotateY.setAngle(rotateY.getAngle() - dx)
                 rotateX.setAngle(rotateX.getAngle() + dy)
+            }
+        }
+
+        scene.onScroll = EventHandler<ScrollEvent> { me: ScrollEvent ->
+            if (me.deltaY > 0) {
+                camera.translateZ += 50.0
+                if (camera.translateZ > 0.0) camera.translateZ = 0.0
+            } else {
+                camera.translateZ -= 50
+                if (camera.translateZ < -1000.0) camera.translateZ = -1000.0
+
             }
         }
     }
