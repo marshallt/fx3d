@@ -67,7 +67,7 @@ class Graphics3d() {
                 //we are not handling closed polygons here. there will be a Polygon class for that
                 when (i) {
                     0 -> {
-                        thisPoint = points[0]
+                        thisPoint = points[i]
                         nextPoint = points[1]
                         thisSegmentNormal = nextPoint.subtract(thisPoint).normalize()
                         offset = thisSegmentNormal.crossProduct(normals[0]).multiply(widths[0] / 2.0)
