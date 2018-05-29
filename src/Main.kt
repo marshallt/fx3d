@@ -32,13 +32,13 @@ class Main : Application() {
         box.material = material
 
         val g = Graphics3d()
-        g.moveTo(43.3, -25.0, -51.0)
-        g.lineTo(43.3, 25.0, -51.0, Point3D(0.0, 0.0, 1.0), 5.0, Color.BLUE)
-        g.lineTo(0.0, 50.0, -51.0, Point3D(0.0, 0.0, 1.0), 5.0, Color.RED)
-        g.lineTo(-43.3, 25.0, -51.0, Point3D(0.0, 0.0, 1.0), 5.0, Color.BLUE)
-        g.lineTo(-43.3, -25.0, -51.0, Point3D(0.0, 0.0, 1.0), 5.0, Color.BLUE)
-        g.lineTo(0.0, -50.0, -51.0, Point3D(0.0, 0.0, 1.0), 5.0, Color.BLUE)
-        g.lineTo(43.3, -25.0, -51.0, Point3D(0.0, 0.0, 1.0), 5.0, Color.BLUE)
+        g.moveTo(0.0, 0.0, 0.0, Point3D(0.0, 0.0, 1.0), 4.0, Color.BLUE)
+        g.lineTo(10.0, 10.0, 0.0, Point3D(0.0, 0.0, 1.0), 4.0, Color.BLUE)
+        g.lineTo(3.0, 14.0, 0.0, Point3D(0.0, 0.0, 1.0), 4.0, Color.RED)
+        //g.lineTo(-43.3, 25.0, -51.0, Point3D(0.0, 0.0, 1.0), 5.0, Color.BLUE)
+        //g.lineTo(-43.3, -25.0, -51.0, Point3D(0.0, 0.0, 1.0), 5.0, Color.BLUE)
+        //g.lineTo(0.0, -50.0, -51.0, Point3D(0.0, 0.0, 1.0), 5.0, Color.BLUE)
+        //g.lineTo(43.3, -25.0, -51.0, Point3D(0.0, 0.0, 1.0), 5.0, Color.BLUE)
 
 
 
@@ -48,7 +48,7 @@ class Main : Application() {
         g.lineTo(20.0, 200.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
         g.lineTo(100.0, 100.0, -51.0, Point3D(0.0, 0.0, 0.0), 5.0, Color.BLUE)
 */
-        root.children.addAll(box, g.meshView())
+        root.children.addAll(g.meshView())
 
     }
 
