@@ -1,15 +1,20 @@
 import javafx.application.Application
 import javafx.event.EventHandler
+import javafx.geometry.Point3D
 import javafx.scene.*
 import javafx.scene.paint.Color
 import javafx.stage.Stage
 import javafx.scene.Scene
-import javafx.scene.effect.Light
 import javafx.scene.input.MouseEvent
+import javafx.scene.input.ScrollEvent
 import javafx.scene.paint.PhongMaterial
 import javafx.scene.shape.Box
-import javafx.scene.shape.CubicCurve
+import javafx.scene.shape.Cylinder
+import javafx.scene.shape.Sphere
 import javafx.scene.transform.Rotate
+import javafx.scene.transform.Translate
+
+
 
 
 class Main : Application() {
@@ -27,20 +32,27 @@ class Main : Application() {
 
 
     override fun start(primaryStage: Stage) {
-        var box = Box(100.0, 100.0, 100.0)
-        var material = PhongMaterial(Color.RED)
-        box.material = material
-
         val root = Group()
-        scene = Scene(root, 1200.0, 900.0, true, SceneAntialiasing.BALANCED)
-        scene.fill = Color.GRAY
 
-        root.children.addAll(box)
+        var sphere = Sphere(1.0)
+        var material = PhongMaterial(Color.RED)
+        sphere.material = material
+        root.children.addAll(sphere)
+
+        var l1 = line(Point3D(-1.0, -2.0, 0.0), Point3D(1.0, -2.0, 0.0), 0.1)
+        l1.material = material
+        root.children.addAll(l1)
+        root.transforms.addAll(rotateX, rotateY)
+
+
+        scene = Scene(root, 1200.0, 900.0, true, SceneAntialiasing.BALANCED)
+        scene.fill = Color.LIGHTGRAY
+
 
 
         camera.nearClip = 0.1
         camera.farClip = 10000.0
-        camera.translateZ = -400.0
+        camera.translateZ = -4.0
         camera.translateY = 0.0
         camera.translateX = 0.0
         camera.fieldOfView = 45.0
@@ -51,6 +63,26 @@ class Main : Application() {
         primaryStage.scene = scene
         primaryStage.show()
         handleMouseEvents()
+    }
+
+
+    private fun line(origin: Point3D, target: Point3D, radius: Double): Cylinder {
+        val yAxis = Point3D(0.0, 1.0, 0.0)
+        val diff = target.subtract(origin)
+        val height = diff.magnitude()
+
+        val mid = target.midpoint(origin)
+        val moveToMidpoint = Translate(mid.getX(), mid.getY(), mid.getZ())
+
+        val axisOfRotation = diff.crossProduct(yAxis)
+        val angle = Math.acos(diff.normalize().dotProduct(yAxis))
+        val rotateAroundCenter = Rotate(-Math.toDegrees(angle), axisOfRotation)
+
+        val line = Cylinder(radius, height)
+
+        line.transforms.addAll(moveToMidpoint, rotateAroundCenter)
+
+        return line
     }
 
     private fun handleMouseEvents() {
@@ -71,6 +103,17 @@ class Main : Application() {
             if (me.isPrimaryButtonDown) {
                 rotateY.setAngle(rotateY.getAngle() - dx)
                 rotateX.setAngle(rotateX.getAngle() + dy)
+            }
+        }
+
+        scene.onScroll = EventHandler<ScrollEvent> {
+            if (it.deltaY > 0) {
+                camera.translateZ += 0.50
+                if (camera.translateZ > 0.0) camera.translateZ = 0.0
+            } else {
+                camera.translateZ -= 0.50
+                if (camera.translateZ < -1000.0) camera.translateZ = -1000.0
+
             }
         }
     }
