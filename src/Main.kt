@@ -33,17 +33,24 @@ class Main : Application() {
 
     override fun start(primaryStage: Stage) {
         val root = Group()
+        root.transforms.addAll(rotateX, rotateY)
 
         var sphere = Sphere(1.0)
         var material = PhongMaterial(Color.RED)
         sphere.material = material
         root.children.addAll(sphere)
 
-        var l1 = line(Point3D(-1.0, -2.0, 0.0), Point3D(1.0, -2.0, 0.0), 0.1)
-        l1.material = material
+        var l1 = line(Point3D(-1.0, -1.1, 0.0), Point3D(1.0, -1.1, 0.0), 0.001)
+        l1.material = PhongMaterial(Color.BLUE)
         root.children.addAll(l1)
-        root.transforms.addAll(rotateX, rotateY)
 
+        var l2 = line(Point3D(1.0, -1.1, 0.0), Point3D(1.25, -0.1, -1.0), 0.001)
+        l2.material = PhongMaterial(Color.AZURE)
+        root.children.addAll(l2)
+
+        var disk = line(Point3D(-0.0001, 0.0, 0.0), Point3D(0.0001, 0.0, 0.0), 2.0)
+        disk.material = PhongMaterial(Color.GREENYELLOW)
+        root.children.addAll(disk)
 
         scene = Scene(root, 1200.0, 900.0, true, SceneAntialiasing.BALANCED)
         scene.fill = Color.LIGHTGRAY
@@ -78,7 +85,7 @@ class Main : Application() {
         val angle = Math.acos(diff.normalize().dotProduct(yAxis))
         val rotateAroundCenter = Rotate(-Math.toDegrees(angle), axisOfRotation)
 
-        val line = Cylinder(radius, height)
+        val line = Cylinder(radius, height, 4)
 
         line.transforms.addAll(moveToMidpoint, rotateAroundCenter)
 
