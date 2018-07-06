@@ -45,7 +45,7 @@ class Main : Application() {
         root.children.addAll(l1)
 
         var l2 = line(Point3D(1.0, -1.1, 0.0), Point3D(1.25, -0.1, -1.0), 0.001)
-        l2.material = PhongMaterial(Color.AZURE)
+        l2.material = PhongMaterial(Color.BLUE)
         root.children.addAll(l2)
 
         var disk = line(Point3D(-0.0001, 0.0, 0.0), Point3D(0.0001, 0.0, 0.0), 2.0)
